@@ -1,0 +1,79 @@
+{
+    "Contact": "Contact us in English",
+    
+    "auth": {
+        "sign_in": "Sign In",
+        "sign_in_message": "Sign in to start your session",
+        "email": "Email",
+        "password": "Password",
+        "remember_me": "Remember Me",
+        "or": "OR",
+        "register_new_membership": "Register a new membership",
+        "forgot_password": "I forgot my password",
+        "forgot_password_message": "You forgot your password? Here you can easily retrieve a new password.",
+        "send_reset_link": "Request new password",
+        "back_to_login": "Back to login",
+        "reset_link_sent": "Reset link sent to your email address",
+        "forgot_password_failed": "Failed to send reset link",
+        "register": "Register",
+        "full_name": "Full Name",
+        "confirm_password": "Confirm Password",
+        "agree_terms": "I agree to the",
+        "terms": "terms",
+        "already_have_membership": "I already have a membership",
+        "login_successful": "Login successful",
+        "login_failed": "Login failed",
+        "registration_successful": "Registration successful",
+        "registration_failed": "Registration failed",
+        "password_confirmation_mismatch": "Passwords do not match",
+        "must_agree_terms": "You must agree to the terms",
+        "logout": "Logout",
+        "logout_successful": "Logged out successfully",
+        "logout_failed": "Logout failed"
+    },
+    
+    "profile": {
+        "my_profile": "My Profile",
+        "profile": "Profile",
+        "email": "Email",
+        "role": "Role",
+        "member_since": "Member Since",
+        "update_profile": "Update Profile",
+        "change_password": "Change Password",
+        "name": "Name",
+        "current_password": "Current Password",
+        "new_password": "New Password",
+        "profile_updated_successfully": "Profile updated successfully",
+        "profile_update_failed": "Profile update failed",
+        "password_changed_successfully": "Password changed successfully",
+        "password_change_failed": "Password change failed"
+    },
+    
+    "common": {
+        "success": "Success",
+        "error": "Error",
+        "home": "Home",
+        "return_home": "return to homepage",
+        "settings": "Settings"
+    },
+    
+    "errors": {
+        "unauthorized": "Oops! Access Denied",
+        "unauthorized_message": "You do not have permission to access this page. You can"
+    },
+    
+    "user_add": "New User",
+    "user_edit": "Edit User",
+    "user_delete": "Delete User",
+    "user_delete_confirmation": "Are you sure you want to remove the user?",
+    "user_deleted_success": "User deleted successfully",
+    "user_deleted_error": "There was an error",
+    "user_get_list_error": "There was an error retrieving the user list",
+    "user_role_updated_success": "User role was updated successfully",
+    "user_role_updated_error": "There was an error updating the user role",
+    "user_search_error": "There was an error updating the user role",
+
+    "general_delete_selected": "Delete Selected",
+    "general_search": "Search",
+    "general_search_no_results_found": "No results found"
+}
