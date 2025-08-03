@@ -1,57 +1,32 @@
 /**
- * Laravel Auth Starter - Bootstrap
- * This file sets up the basic dependencies for the authentication system
+ * We'll load the axios HTTP library which allows us to easily issue requests
+ * to our Laravel back-end. This library automatically handles sending the
+ * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
 import axios from 'axios';
+window.axios = axios;
+
 import jquery from 'jquery';
 
-// Make jQuery available globally (required for AdminLTE)
 window.$ = window.jQuery = jquery;
 
-// Configure Axios
-window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.withCredentials = true;
 
 // Set base URL for API requests
-const baseURL = window.location.origin;
-window.axios.defaults.baseURL = baseURL;
+window.axios.defaults.baseURL = window.location.origin;
 
-// Add auth token to requests if available
-const token = localStorage.getItem('auth_token');
-if (token) {
-    window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-}
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allows your team to easily build robust real-time web applications.
+ */
 
-// Axios interceptor for handling auth tokens
-window.axios.interceptors.request.use((config) => {
-    const currentToken = localStorage.getItem('auth_token');
-    if (currentToken) {
-        config.headers.Authorization = `Bearer ${currentToken}`;
-    }
-    return config;
-});
+// import Echo from 'laravel-echo';
 
-// Axios interceptor for handling authentication errors
-window.axios.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        if (error.response?.status === 401) {
-            // Clear invalid token
-            localStorage.removeItem('auth_token');
-            localStorage.removeItem('auth_user');
-            
-            // Redirect to login if not already there
-            if (!window.location.pathname.includes('/login')) {
-                window.location.href = '/login';
-            }
-        }
-        return Promise.reject(error);
-    }
-);
-
-export { axios };
+// import Pusher from 'pusher-js';
+// window.Pusher = Pusher;
 
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
