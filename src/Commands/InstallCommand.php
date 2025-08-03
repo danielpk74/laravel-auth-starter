@@ -120,6 +120,10 @@ class InstallCommand extends Command
     protected function runSeeders()
     {
         $this->info('🌱 Running seeders...');
+        
+        // $this->call('db:seed', [
+        //     '--class' => 'Danielpk74\\LaravelAuthStarter\\Database\\Seeders\\UserSeeder',
+        // ]);
     }
 
     protected function updateUserModel()
