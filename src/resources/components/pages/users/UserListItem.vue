@@ -52,7 +52,6 @@ const toggleBulkDelete = () => {
 <template>
     <tr>
         <td><input type="checkbox" @change="toggleBulkDelete" :value="user.id" v-model="selectedUsers"></td>
-        <td>{{ index + 1 }}</td>
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
         <td>{{ formatDate(user.created_at) }}</td>

@@ -39,7 +39,7 @@ class LaravelAuthStarterServiceProvider extends ServiceProvider
         ], 'auth-starter-migrations');
 
         $this->publishes([
-            __DIR__.'/database/seeders' => database_path('seeders'),
+            __DIR__.'/Database/Seeders' => database_path('seeders'),
         ], 'auth-starter-seeders');
 
         $this->publishes([

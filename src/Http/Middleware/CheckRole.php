@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Danielpk74\LaravelAuthStarter\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Enums\RoleType;
+use Danielpk74\LaravelAuthStarter\Enums\RoleType;
 
 class CheckRole
 {

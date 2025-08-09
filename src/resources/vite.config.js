@@ -5,11 +5,7 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
     plugins: [
         laravel({
-            input: [
-                // Laravel Auth Starter assets
-                'resources/js/auth-starter/app.js',
-                'resources/css/auth-starter/app.css',
-            ],
+            input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
         }),
         vue({
@@ -21,16 +17,4 @@ export default defineConfig({
             },
         }),
     ],
-    resolve: {
-        alias: {
-            '@auth-starter': '/resources/js/auth-starter',
-        },
-    },
-    css: {
-        preprocessorOptions: {
-            scss: {
-                additionalData: `@import "admin-lte/dist/css/adminlte.min.css";`
-            }
-        }
-    }
 });

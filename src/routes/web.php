@@ -1,17 +1,33 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Danielpk74\LaravelAuthStarter\Http\Controllers\ApplicationController;
+use Danielpk74\LaravelAuthStarter\Http\Controllers\Admin\UserController;
+use Danielpk74\LaravelAuthStarter\Http\Controllers\Auth\AuthController;
+use Danielpk74\LaravelAuthStarter\Http\Controllers\HealthController;
 
-// Web routes for the package
-// These can be customized based on your frontend needs
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
-Route::prefix(config('auth-starter.routes.web_prefix', 'auth'))
-    ->middleware(config('auth-starter.routes.web_middleware', ['web']))
-    ->group(function () {
-        // Add any web routes you need for the authentication system
-        // For example, password reset pages, email verification, etc.
-    });
+Route::get('/', function () {
+    return view('welcome');
+});
 
+// Health check route for Docker
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok'], 200);
+});
+
+// Health check route
+Route::get('/health', HealthController::class);
 
 // Authentication routes
 Route::prefix('api/v1/auth')->group(function () {
@@ -40,3 +56,5 @@ Route::prefix('api')->group(function () {
 
     });
 });
+
+Route::get('{view}', ApplicationController::class)->where('view', '(.*)');

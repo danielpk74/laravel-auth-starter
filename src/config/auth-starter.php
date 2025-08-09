@@ -11,7 +11,7 @@ return [
     |
     */
     'models' => [
-        'user' => \App\Models\User::class,
+        'user' => \Danielpk74\LaravelAuthStarter\Models\User::class,
     ],
 
     /*

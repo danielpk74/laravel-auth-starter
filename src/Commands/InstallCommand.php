@@ -121,9 +121,9 @@ class InstallCommand extends Command
     {
         $this->info('🌱 Running seeders...');
         
-        // $this->call('db:seed', [
-        //     '--class' => 'Danielpk74\\LaravelAuthStarter\\Database\\Seeders\\UserSeeder',
-        // ]);
+        $this->call('db:seed', [
+            '--class' => 'Danielpk74\\LaravelAuthStarter\\Database\\Seeders\\UserSeeder',
+        ]);
     }
 
     protected function updateUserModel()

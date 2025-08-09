@@ -1,51 +1,36 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Danielpk74\LaravelAuthStarter\Http\Controllers\Auth\AuthController;
-use Danielpk74\LaravelAuthStarter\Http\Controllers\Admin\UserController;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
 
 // Public authentication routes
-Route::prefix(config('auth-starter.routes.api_prefix', 'api/auth'))
-    ->middleware(config('auth-starter.routes.api_middleware', ['api']))
-    ->group(function () {
-        Route::post('/login', [AuthController::class, 'login']);
-        
-        if (config('auth-starter.features.registration', true)) {
-            Route::post('/register', [AuthController::class, 'register']);
-        }
-    });
+Route::prefix('auth')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+});
 
 // Protected authentication routes
-Route::prefix(config('auth-starter.routes.api_prefix', 'api/auth'))
-    ->middleware(array_merge(
-        config('auth-starter.routes.api_middleware', ['api']),
-        config('auth-starter.routes.protected_middleware', ['auth:sanctum'])
-    ))
-    ->group(function () {
-        Route::get('/user', [AuthController::class, 'user']);
-        Route::post('/logout', [AuthController::class, 'logout']);
-        
-        if (config('auth-starter.features.profile_management', true)) {
-            Route::put('/profile', [AuthController::class, 'updateProfile']);
-            Route::put('/password', [AuthController::class, 'changePassword']);
-        }
-        
-        if (config('auth-starter.tokens.refresh_enabled', true)) {
-            Route::post('/refresh', [AuthController::class, 'refresh']);
-        }
-    });
+Route::middleware('auth:sanctum')->prefix('auth')->group(function () {
+    Route::get('/user', [AuthController::class, 'user']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::put('/profile', [AuthController::class, 'updateProfile']);
+    Route::put('/password', [AuthController::class, 'changePassword']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+});
 
-// Admin routes for user management
-if (config('auth-starter.features.role_management', true)) {
-    Route::prefix('api/admin')
-        ->middleware(array_merge(
-            config('auth-starter.routes.api_middleware', ['api']),
-            config('auth-starter.routes.protected_middleware', ['auth:sanctum'])
-        ))
-        ->group(function () {
-            Route::apiResource('users', UserController::class);
-            Route::put('users/{id}/role', [UserController::class, 'changeRole']);
-            Route::get('users/search', [UserController::class, 'searchUser']);
-            Route::delete('users/bulk', [UserController::class, 'deleteUserBulk']);
-        });
-}
+// Legacy route for compatibility
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});

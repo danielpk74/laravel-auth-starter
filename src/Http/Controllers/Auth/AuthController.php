@@ -2,18 +2,18 @@
 
 namespace Danielpk74\LaravelAuthStarter\Http\Controllers\Auth;
 
+use Danielpk74\LaravelAuthStarter\Http\Controllers\Controller;
+use Danielpk74\LaravelAuthStarter\Http\Requests\Auth\LoginRequest;
+use Danielpk74\LaravelAuthStarter\Http\Requests\Auth\RegisterRequest;
+use Danielpk74\LaravelAuthStarter\Models\User;
+use Danielpk74\LaravelAuthStarter\Enums\RoleType;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Danielpk74\LaravelAuthStarter\Http\Requests\Auth\LoginRequest;
-use Danielpk74\LaravelAuthStarter\Http\Requests\Auth\RegisterRequest;
-use Danielpk74\LaravelAuthStarter\Http\Requests\Auth\UpdateProfileRequest;
-use Danielpk74\LaravelAuthStarter\Http\Requests\Auth\ChangePasswordRequest;
-use Danielpk74\LaravelAuthStarter\Enums\RoleType;
 
-class AuthController
+class AuthController extends \Illuminate\Routing\Controller
 {
     /**
      * Handle user login
@@ -30,8 +30,7 @@ class AuthController
         }
 
         $user = Auth::user();
-        $tokenName = config('auth-starter.tokens.name', 'auth-token');
-        $token = $user->createToken($tokenName)->plainTextToken;
+        $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
             'success' => true,
@@ -54,25 +53,16 @@ class AuthController
      */
     public function register(RegisterRequest $request): JsonResponse
     {
-        if (!config('auth-starter.features.registration', true)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Registration is disabled',
-            ], 403);
-        }
-
         $data = $request->validated();
         
-        $userModel = config('auth-starter.models.user', \App\Models\User::class);
-        $user = $userModel::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => RoleType::User->value, // Default to User role
         ]);
 
-        $tokenName = config('auth-starter.tokens.name', 'auth-token');
-        $token = $user->createToken($tokenName)->plainTextToken;
+        $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
             'success' => true,
@@ -125,83 +115,17 @@ class AuthController
     }
 
     /**
-     * Update user profile
-     */
-    public function updateProfile(UpdateProfileRequest $request): JsonResponse
-    {
-        if (!config('auth-starter.features.profile_management', true)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Profile management is disabled',
-            ], 403);
-        }
-
-        $user = $request->user();
-        $data = $request->validated();
-
-        $user->update($data);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Profile updated successfully',
-            'data' => [
-                'user' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'role' => $user->role,
-                    'created_at' => $user->created_at,
-                ],
-            ],
-        ]);
-    }
-
-    /**
-     * Change user password
-     */
-    public function changePassword(ChangePasswordRequest $request): JsonResponse
-    {
-        $user = $request->user();
-        $data = $request->validated();
-
-        // Verify current password
-        if (!Hash::check($data['current_password'], $user->password)) {
-            throw ValidationException::withMessages([
-                'current_password' => ['The current password is incorrect.'],
-            ]);
-        }
-
-        // Update password
-        $user->update([
-            'password' => Hash::make($data['password']),
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Password changed successfully',
-        ]);
-    }
-
-    /**
      * Refresh user token
      */
     public function refresh(Request $request): JsonResponse
     {
-        if (!config('auth-starter.tokens.refresh_enabled', true)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Token refresh is disabled',
-            ], 403);
-        }
-
         $user = $request->user();
         
         // Delete current token
         $request->user()->currentAccessToken()->delete();
         
         // Create new token
-        $tokenName = config('auth-starter.tokens.name', 'auth-token');
-        $token = $user->createToken($tokenName)->plainTextToken;
+        $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
             'success' => true,
