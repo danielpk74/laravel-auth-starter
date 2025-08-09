@@ -107,6 +107,62 @@ class InstallCommand extends Command
             '--tag' => 'auth-starter-requests',
             '--force' => $this->option('force'),
         ]);
+
+        // Rewrite namespaces to App\ to comply with PSR-4 in consuming app
+        $this->rewritePublishedNamespaces();
+        $this->info('✅ Backend stubs published and namespaces adjusted');
+    }
+
+    private function rewritePublishedNamespaces(): void
+    {
+        $targets = [
+            app_path('Http/Controllers') => [
+                'from' => 'namespace Danielpk74\\LaravelAuthStarter\\Http\\Controllers',
+                'to'   => 'namespace Danielpk74\LaravelAuthStarter\\Http\\Controllers',
+                'use_from' => 'use Danielpk74\\LaravelAuthStarter\\Http\\Controllers',
+                'use_to'   => 'use Danielpk74\LaravelAuthStarter\\Http\\Controllers',
+            ],
+            app_path('Http/Middleware') => [
+                'from' => 'namespace Danielpk74\\LaravelAuthStarter\\Http\\Middleware',
+                'to'   => 'namespace Danielpk74\LaravelAuthStarter\\Http\\Middleware',
+                'use_from' => 'use Danielpk74\\LaravelAuthStarter\\Http\\Middleware',
+                'use_to'   => 'use Danielpk74\LaravelAuthStarter\\Http\\Middleware',
+            ],
+            app_path('Http/Requests') => [
+                'from' => 'namespace Danielpk74\\LaravelAuthStarter\\Http\\Requests',
+                'to'   => 'namespace Danielpk74\LaravelAuthStarter\\Http\\Requests',
+                'use_from' => 'use Danielpk74\\LaravelAuthStarter\\Http\\Requests',
+                'use_to'   => 'use Danielpk74\LaravelAuthStarter\\Http\\Requests',
+            ],
+        ];
+
+        foreach ($targets as $dir => $map) {
+            if (!is_dir($dir)) {
+                continue;
+            }
+            $files = $this->phpFiles($dir);
+            foreach ($files as $file) {
+                $content = File::get($file);
+                $updated = str_replace($map['from'], $map['to'], $content);
+                $updated = str_replace($map['use_from'], $map['use_to'], $updated);
+                if ($updated !== $content) {
+                    File::put($file, $updated);
+                }
+            }
+        }
+    }
+
+    private function phpFiles(string $baseDir): array
+    {
+        $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($baseDir));
+        $files = [];
+        foreach ($rii as $file) {
+            if ($file->isDir()) continue;
+            if (substr($file->getFilename(), -4) === '.php') {
+                $files[] = $file->getPathname();
+            }
+        }
+        return $files;
     }
 
     protected function publishFrontendAssets()
