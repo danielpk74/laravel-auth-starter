@@ -1,0 +1,17 @@
+{
+    "Contact": "Contáctenos en español",
+    "user_add": "Nuevo Usuario",
+    "user_edit": "Editar Usuario",
+    "user_delete": "Eliminar Usuario",
+    "user_delete_confirmation": "¿Está seguro de que desea eliminar este usuario?",
+    "user_deleted_success": "Usuario ha sido eliminado correctamente",
+    "user_deleted_error": "Error eliminando el usuario",
+    "user_get_list_error": "Error obteniendo la lista de usuarios",
+    "user_role_updated_success": "El role fue actualizado correctamente",
+    "user_role_updated_error": "Error actualizando el rol de usuario",
+    "user_search_error": "Error buscando usuarios",
+
+    "general_delete_selected": "Eliminar seleccionados",
+    "general_search": "Buscar",
+    "general_search_no_results_found": "No se encontraron registros"
+}
