@@ -27,6 +27,9 @@ class InstallCommand extends Command
         // Run migrations
         $this->runMigrations();
 
+        // Publish backend stubs (controllers, middleware, requests)
+        $this->publishBackendStubs();
+
         // Publish frontend assets if requested
         if ($this->option('with-frontend')) {
             $this->publishFrontendAssets();
@@ -81,6 +84,29 @@ class InstallCommand extends Command
         $this->info('🗄️ Running migrations...');
         
         $this->call('migrate');
+    }
+
+    protected function publishBackendStubs()
+    {
+        $this->info('🧩 Publishing backend controllers, middleware, and requests...');
+
+        // Controllers
+        $this->call('vendor:publish', [
+            '--tag' => 'auth-starter-controllers',
+            '--force' => $this->option('force'),
+        ]);
+
+        // Middleware
+        $this->call('vendor:publish', [
+            '--tag' => 'auth-starter-middleware',
+            '--force' => $this->option('force'),
+        ]);
+
+        // Requests
+        $this->call('vendor:publish', [
+            '--tag' => 'auth-starter-requests',
+            '--force' => $this->option('force'),
+        ]);
     }
 
     protected function publishFrontendAssets()

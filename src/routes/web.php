@@ -17,10 +17,6 @@ use Danielpk74\LaravelAuthStarter\Http\Controllers\HealthController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // Health check route for Docker
 Route::get('/health', function () {
     return response()->json(['status' => 'ok'], 200);
@@ -57,4 +53,6 @@ Route::prefix('api')->group(function () {
     });
 });
 
-Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
+// SPA catch-all: return the same view for any non-API path
+Route::view('/{any?}', 'app')
+    ->where('any', '^(?!api).*$');

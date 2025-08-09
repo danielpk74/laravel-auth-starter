@@ -38,8 +38,9 @@ class LaravelAuthStarterServiceProvider extends ServiceProvider
             __DIR__.'/database/migrations' => database_path('migrations'),
         ], 'auth-starter-migrations');
 
+        // Fix directory case and publish seeders
         $this->publishes([
-            __DIR__.'/Database/Seeders' => database_path('seeders'),
+            __DIR__.'/database/seeders' => database_path('seeders'),
         ], 'auth-starter-seeders');
 
         $this->publishes([
@@ -63,6 +64,19 @@ class LaravelAuthStarterServiceProvider extends ServiceProvider
             __DIR__.'/resources/vite.config.js' => base_path('auth-starter-vite.config.js'),
             __DIR__.'/resources/FRONTEND_README.md' => base_path('AUTH_STARTER_FRONTEND.md'),
         ], 'auth-starter-config-files');
+
+        // Optional: publish backend stubs (controllers, middleware, requests)
+        $this->publishes([
+            __DIR__.'/Http/Controllers' => app_path('Http/Controllers'),
+        ], 'auth-starter-controllers');
+
+        $this->publishes([
+            __DIR__.'/Http/Middleware' => app_path('Http/Middleware'),
+        ], 'auth-starter-middleware');
+
+        $this->publishes([
+            __DIR__.'/Http/Requests' => app_path('Http/Requests'),
+        ], 'auth-starter-requests');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
