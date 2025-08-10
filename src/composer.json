@@ -1,6 +1,6 @@
 {
     "name": "danielpk74/laravel-auth-starter",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "type": "library",
     "description": "Laravel 12 + Vue 3 authentication starter package with complete auth system, AdminLTE UI, role-based access control, and ready for document monitoring extensions",
     "keywords": [
