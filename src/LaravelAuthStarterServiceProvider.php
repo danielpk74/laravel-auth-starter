@@ -28,18 +28,19 @@ class LaravelAuthStarterServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes/api.php');
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         
-        $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
         $this->publishes([
             __DIR__.'/config/auth-starter.php' => config_path('auth-starter.php'),
         ], 'auth-starter-config');
 
         $this->publishes([
-            __DIR__.'/Database/Migrations' => database_path('migrations'),
+            __DIR__.'/database/migrations' => database_path('migrations'),
         ], 'auth-starter-migrations');
 
+        // Fix directory case and publish seeders
         $this->publishes([
-            __DIR__.'/Database/Seeders' => database_path('seeders'),
+            __DIR__.'/database/seeders' => database_path('seeders'),
         ], 'auth-starter-seeders');
 
         $this->publishes([

@@ -12,29 +12,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $userModel = config('auth-starter.models.user', \App\Models\User::class);
-        
-        // Create admin user
-        $userModel::create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-            'role' => 1, // Admin role
-            'email_verified_at' => now(),
-        ]);
-        
-        // Create regular user
-        $userModel::create([
-            'name' => 'Regular User',
-            'email' => 'user@example.com',
-            'password' => bcrypt('password'),
-            'role' => 2, // User role
-            'email_verified_at' => now(),
-        ]);
-        
-        // Create additional test users if factories exist
-        if (method_exists($userModel, 'factory')) {
-            $userModel::factory()->count(8)->create();
-        }
+        \App\Models\User::factory()->count(10)->create();
     }
 }
