@@ -277,6 +277,44 @@ composer test
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
+## Development & Testing
+
+### Package Validation
+
+The package includes scripts to validate and test the installation:
+
+```bash
+# Validate package structure and PSR-4 compliance
+./validate-package.sh
+
+# Test package installation in a fresh Laravel project
+./test-installation.sh
+
+# Prepare package for deployment (validate, test, version, tag)
+./deploy-package.sh
+```
+
+### Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Make changes and ensure tests pass: `./validate-package.sh`
+4. Commit changes: `git commit -am 'Add new feature'`
+5. Push to the branch: `git push origin feature-name`
+6. Submit a pull request
+
+### Package Development
+
+This package follows PSR-4 autoloading standards with the following structure:
+
+- `src/` - Main package code
+- `src/Commands/` - Artisan commands
+- `src/Database/` - Migrations and seeders
+- `src/Http/` - Controllers, requests, middleware
+- `src/Models/` - Eloquent models
+- `src/resources/` - Frontend assets (Vue.js components, CSS, JS)
+- `tests/` - Package tests
+
 ## Support
 
 - 📧 Email: danielpk74@example.com

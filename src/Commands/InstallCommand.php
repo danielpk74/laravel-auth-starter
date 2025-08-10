@@ -203,8 +203,15 @@ class InstallCommand extends Command
     {
         $this->info('🌱 Running seeders...');
         
+        // Publish seeders first
+        $this->call('vendor:publish', [
+            '--tag' => 'auth-starter-seeders',
+            '--force' => $this->option('force'),
+        ]);
+        
+        // Run the published seeders from the app directory
         $this->call('db:seed', [
-            '--class' => 'Danielpk74\\LaravelAuthStarter\\Database\\Seeders\\UserSeeder',
+            '--class' => 'Database\\Seeders\\UserSeeder',
         ]);
     }
 

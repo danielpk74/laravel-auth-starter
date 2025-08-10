@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 class PublishAssetsCommand extends Command
 {
     protected $signature = 'auth-starter:publish 
-                            {type? : Type of assets to publish (config|migrations|js|components|css|locales|all)}
+                            {type? : Type of assets to publish (config|migrations|seeders|js|components|css|locales|all)}
                             {--force : Overwrite existing files}';
 
     protected $description = 'Publish Laravel Auth Starter assets';
@@ -22,6 +22,9 @@ class PublishAssetsCommand extends Command
                 break;
             case 'migrations':
                 $this->publishMigrations();
+                break;
+            case 'seeders':
+                $this->publishSeeders();
                 break;
             case 'js':
                 $this->publishJavaScript();
@@ -39,7 +42,7 @@ class PublishAssetsCommand extends Command
                 $this->publishAll();
                 break;
             default:
-                $this->error('Invalid type. Use: config, migrations, js, components, css, locales, or all');
+                $this->error('Invalid type. Use: config, migrations, seeders, js, components, css, locales, or all');
                 return 1;
         }
 
@@ -62,6 +65,16 @@ class PublishAssetsCommand extends Command
         
         $this->call('vendor:publish', [
             '--tag' => 'auth-starter-migrations',
+            '--force' => $this->option('force'),
+        ]);
+    }
+
+    protected function publishSeeders()
+    {
+        $this->info('📝 Publishing seeders...');
+        
+        $this->call('vendor:publish', [
+            '--tag' => 'auth-starter-seeders',
             '--force' => $this->option('force'),
         ]);
     }
@@ -112,6 +125,7 @@ class PublishAssetsCommand extends Command
         
         $this->publishConfig();
         $this->publishMigrations();
+        $this->publishSeeders();
         $this->publishJavaScript();
         $this->publishComponents();
         $this->publishCSS();
